@@ -1,13 +1,3 @@
----
-title: "Overview"
-output: html_document
-date: "2022-12-11"
----
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
 ## Introduction
 
 A repo of visuals used in football analytics.
