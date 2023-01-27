@@ -16,19 +16,18 @@ Functions used within some of the below code exist via [globals.R](https://githu
 
 ## League Table
 
-Repo
+[Repo](https://github.com/Markjwilkins/analytics_toolbox/tree/main/R/league_table)
 
 ![](R/league_table/league_one_2022_2023_league_table.png)
 
 ## Pass Plot
 
-Repo
+[Repo](https://github.com/Markjwilkins/analytics_toolbox/tree/main/R/pass_plot)
 
 ![](R/pass_plot/luke_shaw_passes_full.jpg)
 
 ## Progressive Passes
 
-Repo
+[Repo](https://github.com/Markjwilkins/analytics_toolbox/tree/main/R/progressive_passes)
 
 ![](R/progressive_passes/euros_progressive_passes_full.jpg)
-
