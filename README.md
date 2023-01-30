@@ -14,6 +14,12 @@ Data used includes:
 
 Functions used within some of the below code exist via [globals.R](https://github.com/Markjwilkins/analytics_toolbox/blob/main/globals.R) whilst Uefa event data is in [data](https://github.com/Markjwilkins/analytics_toolbox/tree/main/data).
 
+## Squad Usage
+
+[Repo](https://github.com/Markjwilkins/analytics_toolbox/tree/main/R/squad_usage)
+
+![](R/squad_usage/oxford_united_squad_usage_full.jpg)
+
 ## League Table
 
 [Repo](https://github.com/Markjwilkins/analytics_toolbox/tree/main/R/league_table)
