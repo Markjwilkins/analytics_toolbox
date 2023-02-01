@@ -1,0 +1,197 @@
+---
+title: "xG Difference - Interactive Plot"
+output: html_document
+date: "2023-02-01"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r include = TRUE}
+##Load Packages
+pacman::p_load(tidyverse, worldfootballR, gradienttext, ggtext, magick, ggiraph)
+```
+
+```{r include = TRUE}
+#Data
+##find and select league id
+leagues <- worldfootballR::fotmob_get_league_ids()
+
+##find and pull EPL league code
+league_id <-
+  leagues |> filter(country == "England", name == "League Two") |> pull(id)
+
+##base url
+url <- "https://www.fotmob.com/api/leagues?id="
+
+##url with league code
+complete_url <- glue::glue("{url}{league_id}")
+
+##pull league JSON
+league_json <- jsonlite::fromJSON(complete_url)
+
+##league logo for final plot
+league_logo <-
+  glue::glue("https://images.fotmob.com/image_resources/logo/leaguelogo/{league_id}.png")
+
+##pull played matches
+matches <-
+  league_json$matches$data$allMatches |>
+  filter(status$finished == TRUE)
+
+##played matches match id
+played_matches <- unique(matches$id)
+
+##pull individual match information
+match_shots <-
+  worldfootballR::fotmob_get_match_details(match_ids = played_matches)
+
+##league name for saving
+league_name <-
+  str_to_lower(unique(match_shots$league_name)) |> str_replace(" ", "_")
+
+league_title <- unique(match_shots$league_name)
+```
+
+```{r include = FALSE, warning=FALSE}
+##Summary Data
+##create total home and away xg for each match
+match_summary <-
+  match_shots |>
+  mutate(shot_team_name = ifelse(team_id == home_team_id, home_team, away_team)) |>
+  group_by(match_id, home_team, away_team, shot_team_name) |>
+  summarise(home_xg = sum(expected_goals[home_team == shot_team_name]),
+            away_xg = sum(expected_goals[away_team == shot_team_name]))
+
+home <-
+  match_summary |>
+  filter(home_xg > 0) |>
+  select(-away_xg)
+
+away <-
+  match_summary |>
+  filter(away_xg > 0) |>
+  select(-home_xg)
+
+##combine data
+combo_data <-
+  left_join(home, away, by = "match_id") |>
+  select(match_id,
+         home = home_team.x,
+         away = away_team.x,
+         home_xg,
+         away_xg)
+
+##home and away labels for interactive plot
+home_away <- 
+  combo_data |> 
+  select(match_id, home, away) |> 
+  mutate(match = glue::glue("{home} vs {away}")) |> 
+  select(match_id, match)
+
+##reshape data
+combo_data <-
+  left_join(home, away, by = "match_id") |>
+  select(match_id,
+         home = home_team.x,
+         away = away_team.x,
+         home_xg,
+         away_xg) |>
+  pivot_longer(c("home", "away"), names_to = "home_away", values_to = "team") |>
+  mutate(
+    xg_for = ifelse(home_away == "home", home_xg, away_xg),
+    xg_against = ifelse(home_away == "home", away_xg, home_xg),
+    .keep = "unused"
+  ) |> 
+  mutate(xg_for = xg_for |> round(2),
+         xg_against = xg_against |> round(2))
+
+##create match links for when points are clicked - goes to Fotmob match page
+match_links <- 
+  matches |> 
+  mutate(id = as.numeric(id)) |> 
+  select(match_id = id, page = pageUrl) |> 
+  mutate(full_link = glue::glue("https://www.fotmob.com/{page}"),
+         onclick = glue::glue('window.open("{full_link}")'))
+
+##final data - join other df's and create tooltip labels
+data <- 
+  left_join(combo_data, match_links |> select(match_id, onclick)) |> 
+  left_join(home_away, by = "match_id") |> 
+  mutate(tooltip_lab = glue::glue("<b>Match</b>: {match}\n<b>xG For</b>: {xg_for}\n<b>xG Against</b>: {xg_against}"))
+
+##colours
+cols <- c("#e76254","#1e466e")
+
+##subtitle
+sub <- "Each dot reprents a match in the 2022/2023 season. Those points above <br>the 
+reference line indicate the team conceded more xG than created. <br>Those points below the 
+line show an xG difference in the teams favour"
+```
+
+```{r include = FALSE, warning=FALSE}
+##Plot
+(plot <- 
+  ggplot(data,
+         aes(
+           x = xg_for,
+           y = xg_against,
+           fill = (xg_for - xg_against)
+         )) +
+  ##change from static plot to make points interactive
+  ggiraph::geom_point_interactive(
+    aes(tooltip = tooltip_lab, 
+        data_id = match_id,
+        onclick = onclick),
+    shape = 21,
+    size = 2.6,
+    stroke = 0.8
+  ) +
+  geom_abline(intercept = 0,
+              slope = 1,
+              linewidth = 0.1) +
+  labs(
+     title = gradienttext::make_gradient(glue::glue("{league_title} xG By Game"), cols),
+    subtitle = sub,
+    x = "xG For",
+    y = "xG Against",
+    caption = "**Viz**: @AnalyticsOxford<br>**Data**: Fotmob.com"
+  ) +
+  facet_wrap(. ~ team, ncol = 6, nrow = 4) + # split to one facet per team
+  theme_minimal() +
+  theme(
+    legend.position = "none",
+    strip.text = element_text(size = 10, face = "bold", family = "IBMPlexSans"),
+    plot.title = ggtext::element_markdown(size = 40, face = "bold", family = "IBMPlexSans"),
+    plot.subtitle = element_text(size = 14, face = "bold", family = "IBMPlexSans"),
+    plot.title.position = "plot",
+    axis.title = element_text(face = "bold", family = "IBMPlexSans"),
+    plot.caption = ggtext::element_markdown()
+  ) +
+  scale_fill_gradient2(low = "#e76254", high = "#1e466e"))
+```
+
+```{r include = TRUE, warning=FALSE}
+##interactive tooltip
+tooltip_css <- "background-color:#282828;color:#f2f2f2;padding:10px;border-radius:5px;font-family:IBMPlexSans"
+
+##output plot
+ggiraph::girafe(ggobj = plot,
+                width_svg = 10, 
+                height_svg = 6,
+                options = list(
+                  opts_hover_inv(css = "opacity:0.1;"),
+                  opts_hover(css = "fill:red;"),
+                  opts_tooltip(css = tooltip_css)
+                ))
+```
+
+
+
+
+
+
+
