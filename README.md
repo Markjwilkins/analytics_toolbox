@@ -14,6 +14,14 @@ Data used includes:
 
 Functions used within some of the below code exist via [globals.R](https://github.com/Markjwilkins/analytics_toolbox/blob/main/globals.R) whilst Uefa event data is in [data](https://github.com/Markjwilkins/analytics_toolbox/tree/main/data).
 
+## Match xG Difference
+
+[Repo](https://github.com/Markjwilkins/analytics_toolbox/tree/main/R/match_xg)
+
+Includes both a static plot below, along with an interactive plot in a markdown file. The interactivity acheived through ggiraph.
+
+![](R/match_xg/league_two_xg_per_game_full.jpg)
+
 ## Squad Usage
 
 [Repo](https://github.com/Markjwilkins/analytics_toolbox/tree/main/R/squad_usage)
