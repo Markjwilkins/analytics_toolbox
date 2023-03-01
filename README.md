@@ -1,3 +1,13 @@
+---
+title: "Overview"
+output: html_document
+date: "2022-12-11"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
 ## Introduction
 
 A repo of visuals used in football analytics.
@@ -13,6 +23,12 @@ Data used includes:
 -   [Transfermarkt](https://www.transfermarkt.com/) via worldfootballR
 
 Functions used within some of the below code exist via [globals.R](https://github.com/Markjwilkins/analytics_toolbox/blob/main/globals.R) whilst Uefa event data is in [data](https://github.com/Markjwilkins/analytics_toolbox/tree/main/data).
+
+## League Simulation
+
+[Repo](https://github.com/Markjwilkins/analytics_toolbox/tree/main/R/league_simulation)
+
+![](R/league_simulation/league_one_sim_plot_full.jpg)
 
 ## Match xG Difference
 
