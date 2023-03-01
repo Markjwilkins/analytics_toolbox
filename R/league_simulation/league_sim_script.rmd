@@ -1,5 +1,5 @@
 ---
-title: "championship dixon-coles 2023"
+title: "league one dixon-coles 2023"
 output: html_document
 editor_options: 
   chunk_output_type: console
