@@ -35,12 +35,12 @@ camcorder::gg_record(
 
 ##font
 ```{r}
-sysfonts::font_add(family = "IBMPlexSans", regular = "IBMPlexSans-Bold.ttf")
-sysfonts::font_add_google("IBM Plex Sans", "IBM")
+sysfonts::font_add_google(name = "IBM Plex Sans", family = "IBM")
 
 showtext::showtext_auto()
-#set dpi for showtext to avoid issues with ggsave export
 showtext::showtext_opts(dpi = 300)
+
+font <- "IBM"
 ```
 
 
