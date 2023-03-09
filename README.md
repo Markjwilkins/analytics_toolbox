@@ -25,3 +25,35 @@ Functions used within some of the below code exist via [globals.R](https://githu
 [Repo](https://github.com/Markjwilkins/analytics_toolbox/tree/main/R/league_simulation)
 
 ![](R/league_simulation/league_one_sim_plot_full.jpg)
+
+## Match xG Difference
+
+[Repo](https://github.com/Markjwilkins/analytics_toolbox/tree/main/R/match_xg)
+
+Includes both a static plot below, along with an interactive plot in a markdown file. The interactivity acheived through ggiraph.
+
+![](R/match_xg/league_two_xg_per_game_full.jpg)
+
+## Squad Usage
+
+[Repo](https://github.com/Markjwilkins/analytics_toolbox/tree/main/R/squad_usage)
+
+![](R/squad_usage/oxford_united_squad_usage_full.jpg)
+
+## League Table
+
+[Repo](https://github.com/Markjwilkins/analytics_toolbox/tree/main/R/league_table)
+
+![](R/league_table/league_one_2022_2023_league_table.png)
+
+## Pass Plot
+
+[Repo](https://github.com/Markjwilkins/analytics_toolbox/tree/main/R/pass_plot)
+
+![](R/pass_plot/luke_shaw_passes_full.jpg)
+
+## Progressive Passes
+
+[Repo](https://github.com/Markjwilkins/analytics_toolbox/tree/main/R/progressive_passes)
+
+![](R/progressive_passes/euros_progressive_passes_full.jpg)
