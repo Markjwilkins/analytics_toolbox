@@ -14,6 +14,12 @@ Data used includes:
 
 Functions used within some of the below code exist via [globals.R](https://github.com/Markjwilkins/analytics_toolbox/blob/main/globals.R) whilst Uefa event data is in [data](https://github.com/Markjwilkins/analytics_toolbox/tree/main/data).
 
+## Match Shot Plot
+
+[Repo](https://github.com/Markjwilkins/analytics_toolbox/tree/main/R/match_shot_plot)
+
+![](R/match_shot_plot/match_shot_map.jpg)
+
 ## xG Difference Beeswarm
 
 [Repo](https://github.com/Markjwilkins/analytics_toolbox/tree/main/R/xg_difference_beeswarm)
