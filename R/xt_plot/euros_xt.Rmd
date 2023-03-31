@@ -1,0 +1,85 @@
+---
+title: "Euros Player xT"
+output:
+  rmarkdown::html_document:
+      keep_md: true
+---
+
+## {.tabset}
+
+```{r  echo=FALSE, message = FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+
+pacman::p_load(tidyverse, ggshakeR)
+
+# Load data and set font/theme --------------------------------------------
+data <- readRDS(here::here("data/uefa_euro_2020.RDS"))
+
+source(here::here("globals.R"))
+```
+
+```{r}
+df <- 
+  data |> 
+  rename("x" = "location.x",
+         "y" = "location.y",
+         "finalX" = "pass.end_location.x",
+         "finalY" = "pass.end_location.y") |> 
+  mutate(pass.outcome.name = ifelse(is.na(pass.outcome.name), "successful", "unsuccessful")) |> 
+  filter(type.name == "Pass",
+         pass.outcome.name == "successful",
+         is.na(pass.type.name))
+
+xt_data <- 
+  calculate_threat(data = df, type = "statsbomb") |> 
+  mutate(xt = xTEnd - xTStart)
+
+top <- 
+  xt_data |> 
+  group_by(player.name) |> 
+  summarise(xt_tot = sum(xt, na.rm = TRUE)) |> 
+  ungroup() |> 
+  slice_max(order_by = xt_tot, n = 10)
+
+players <- unique(top$player.name)
+```
+
+
+```{r results='asis'}
+
+for(selected_players in players) {
+  
+  cat('\n\n### ',selected_players,'\n\n')
+  
+  cat(selected_players, " Euros 2020 xT Plot!\n\n")
+  
+  p <- 
+  xt_data |>
+  filter(player.name == selected_players) |>
+  ggplot() +
+  stat_summary_2d(
+    aes(x = x, y = y, z = xt),
+    binwidth = c(10, 10),
+    fun = function(x)
+      sum(x)
+  ) +
+  ggsoccer::annotate_pitch(dimensions = pitch_statsbomb, fill = NA) +
+  theme_pitch() +
+  scale_fill_gradient(low = "white", high = "#1e466e", name = "Total xT") +
+  guides(
+    fill = guide_legend(
+      title.position = "top",
+      title.hjust = 0.5,
+      label.position = "bottom",
+      keywidth = 3,
+      nrow = 1,
+      title = "Zone xT Value"
+    )
+  ) +
+  scale_y_reverse() +
+  theme(legend.position = "top")
+  
+  ## must print ggplots in a for loop
+  print(p)
+}
+```
