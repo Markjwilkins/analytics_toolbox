@@ -14,6 +14,18 @@ Data used includes:
 
 Functions used within some of the below code exist via [globals.R](https://github.com/Markjwilkins/analytics_toolbox/blob/main/globals.R) whilst Uefa event data is in [data](https://github.com/Markjwilkins/analytics_toolbox/tree/main/data).
 
+## Player xT Heatmap
+
+[Repo](https://github.com/Markjwilkins/analytics_toolbox/tree/main/R/xt_plot)
+
+The repo includes a static plot along with a [.rmd](https://github.com/Markjwilkins/analytics_toolbox/blob/main/R/xt_plot/euros_xt.Rmd) file to plot the top 10 xT players from Euro 2020 from successful open play passes in a tabbed markdown as following [TidyX](https://github.com/thebioengineer/TidyX/tree/master/TidyTuesday_Explained/137-Magically_Multiplying_Tabs_in_Reports)
+
+![](R/xt_plot/Jordi%20Alba%20Ramos_xt_plot_full.jpg)
+
+Tabbed xT player report
+
+![](R/xt_plot/tabbed_xt.jpg)
+
 ## Match Shot Plot
 
 [Repo](https://github.com/Markjwilkins/analytics_toolbox/tree/main/R/match_shot_plot)
