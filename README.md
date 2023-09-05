@@ -14,6 +14,12 @@ Data used includes:
 
 Functions used within some of the below code exist via [globals.R](https://github.com/Markjwilkins/analytics_toolbox/blob/main/globals.R) whilst Uefa event data is in [data](https://github.com/Markjwilkins/analytics_toolbox/tree/main/data).
 
+## Weekly ELF Legue One Players U21
+
+[Repo](https://github.com/Markjwilkins/analytics_toolbox/tree/main/R/weekly_young_players)
+
+![](R/weekly_young_players/league_one_week_6.png)
+
 ## Player xT Heatmap
 
 [Repo](https://github.com/Markjwilkins/analytics_toolbox/tree/main/R/xt_plot)
