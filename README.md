@@ -14,6 +14,14 @@ Data used includes:
 
 Functions used within some of the below code exist via [globals.R](https://github.com/Markjwilkins/analytics_toolbox/blob/main/globals.R) whilst Uefa event data is in [data](https://github.com/Markjwilkins/analytics_toolbox/tree/main/data).
 
+## Player Percentile Rank
+
+[Repo](https://github.com/Markjwilkins/analytics_toolbox/tree/main/R/player_percentile)
+
+A quick player percentile rank overview using Wyscout data and gt/gtExtras to visualise.
+
+![](R/player_percentile/o_arblaster_overview.png)
+
 ## Weekly EFL Legue One Players U21
 
 [Repo](https://github.com/Markjwilkins/analytics_toolbox/tree/main/R/weekly_young_players)
